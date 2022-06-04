@@ -57,8 +57,8 @@ export function handleTransfer(event: TransferEvent): void {
   const contract = Humps.bind(event.address)
   const meta = contract.metaForHump(entity.tokenId)
 
-  entity.dna = meta.dnaFingerprint
-  entity.motherId = meta.mother
-  entity.fatherId = meta.father
+  entity.dna = meta.getDnaFingerprint()
+  entity.motherId = meta.getMother()
+  entity.fatherId = meta.getFather()
   entity.save()
 }

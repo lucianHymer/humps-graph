@@ -238,4 +238,39 @@ export class Transfer extends Entity {
   set tokenId(value: BigInt) {
     this.set("tokenId", Value.fromBigInt(value));
   }
+
+  get motherId(): Bytes {
+    let value = this.get("motherId");
+    return value!.toBytes();
+  }
+
+  set motherId(value: Bytes) {
+    this.set("motherId", Value.fromBytes(value));
+  }
+
+  get fatherId(): Bytes {
+    let value = this.get("fatherId");
+    return value!.toBytes();
+  }
+
+  set fatherId(value: Bytes) {
+    this.set("fatherId", Value.fromBytes(value));
+  }
+
+  get dna(): string | null {
+    let value = this.get("dna");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set dna(value: string | null) {
+    if (!value) {
+      this.unset("dna");
+    } else {
+      this.set("dna", Value.fromString(<string>value));
+    }
+  }
 }
