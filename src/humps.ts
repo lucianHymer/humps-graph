@@ -4,6 +4,9 @@ import {
   OwnershipTransferred as OwnershipTransferredEvent,
   Transfer as TransferEvent
 } from "../generated/Humps/Humps"
+
+import { Humps } from "../generated/Humps/Humps"
+
 import {
   Approval,
   ApprovalForAll,
@@ -46,8 +49,16 @@ export function handleTransfer(event: TransferEvent): void {
   let entity = new Transfer(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   )
+
+  entity.tokenId = event.params.tokenId
   entity.from = event.params.from
   entity.to = event.params.to
-  entity.tokenId = event.params.tokenId
+
+  const contract = Humps.bind(event.address)
+  const meta = contract.metaForHump(entity.tokenId)
+
+  entity.dna = meta.dnaFingerprint
+  entity.motherId = meta.mother
+  entity.fatherId = meta.father
   entity.save()
 }
